@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Weather</string>
+    <string name="app_name">Weather app</string>
+
+    <!-- Buttons -->
+    <string name="btn_check">Sprawdź</string>
+    <string name="btn_close">Zamknij</string>
+
+    <string name="header_main">Sprawdź pogodę w swoim mieście</string>
+    <string name="placeholder_search">np. Gliwice</string>
+
+    <!-- Labels -->
+    <string name="label_pressure">Ciśnienie</string>
+    <string name="label_temperature">Temperatura</string>
+    <string name="label_sunrise">Wschód słońca</string>
+    <string name="label_sunset">Zachód słońca</string>
+    <string name="label_update">Aktualizacja</string>
+
 </resources>
