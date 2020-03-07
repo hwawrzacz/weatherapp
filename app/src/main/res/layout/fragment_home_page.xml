@@ -38,7 +38,6 @@
         android:id="@+id/materialTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="i sprawdź aktualną pogodę"
         android:textSize="@dimen/text_big"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +48,7 @@
         app:layout_constraintHorizontal_bias="0.0"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Miasto"
@@ -58,8 +57,10 @@
         app:boxCornerRadiusBottomStart="@dimen/input_radius"
         app:boxCornerRadiusTopEnd="@dimen/input_radius"
         app:boxCornerRadiusTopStart="@dimen/input_radius"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/round_search_24"
 
+        app:errorEnabled="true"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,9 +88,9 @@
         app:cornerRadius="@dimen/button_corner_radius"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="@+id/input_layout"
+        app:layout_constraintStart_toStartOf="@+id/input_layout"
+        app:layout_constraintTop_toBottomOf="@+id/input_layout"
         app:layout_constraintVertical_bias="0.0" />
 
 

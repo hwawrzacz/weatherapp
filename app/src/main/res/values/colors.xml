@@ -3,4 +3,9 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="text_high_emph">#DE000000</color>
+    <color name="text_helper_emp">#99000000</color>
+    <color name="text_disabled">#61000000</color>
+    <color name="text_error">#FFB00020</color>
 </resources>

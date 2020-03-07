@@ -7,20 +7,39 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <LinearLayout
+        android:id="@+id/city_name_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/city_name_steady"
-            android:layout_width="match_parent"
+            android:id="@+id/city_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="5"
             android:text="Gliwice"
             android:textSize="@dimen/text_header"
+            android:textColor="@color/text_high_emph" />
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/info_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/outline_info_24"
+            android:layout_gravity="center"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:cornerRadius="@dimen/button_corner_radius"
+            android:drawableTint="@color/colorAccent"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/conditions_wrapper"
@@ -28,20 +47,29 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/city_name_steady"
+        app:layout_constraintEnd_toEndOf="@+id/city_name_wrapper"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/city_name_steady"
-        app:layout_constraintTop_toBottomOf="@+id/city_name_steady"
+        app:layout_constraintStart_toStartOf="@+id/city_name_wrapper"
+        app:layout_constraintTop_toBottomOf="@+id/city_name_wrapper"
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="-11"
+            android:textSize="@dimen/text_temperature"
+            android:textColor="@color/text_high_emph" />
+
+        <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="4 *C"
-            android:textSize="@dimen/text_temperature" />
+            android:text="°C"
+            android:textSize="@dimen/text_temperature"
+            android:textColor="@color/text_high_emph" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,6 +81,7 @@
                 android:id="@+id/weather_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_launcher_background" />
 
             <TextView
@@ -60,6 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pochmurno"
+                android:textColor="@color/text_high_emph"
                 android:textSize="@dimen/text_value"
                 android:textAlignment="center" />
 
@@ -70,7 +100,7 @@
         android:id="@+id/sun_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/conditions_wrapper"
         app:layout_constraintStart_toStartOf="@+id/conditions_wrapper"
@@ -88,16 +118,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_sunrise"
-                android:textSize="@dimen/text_label"
-                android:textAlignment="textStart" />
+                android:textAlignment="textStart"
+                android:textColor="@color/text_helper_emp"
+                android:textSize="@dimen/text_label" />
 
             <TextView
                 android:id="@+id/sunrise_hour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="6:30"
-                android:textSize="@dimen/text_value"
-                android:textAlignment="textStart" />
+                android:textAlignment="textStart"
+                android:textColor="@color/text_high_emph"
+                android:textSize="@dimen/text_value" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,16 +143,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_sunset"
-                android:textSize="@dimen/text_label"
-                android:textAlignment="textStart" />
+                android:textAlignment="textEnd"
+                android:textColor="@color/text_helper_emp"
+                android:textSize="@dimen/text_label" />
 
             <TextView
                 android:id="@+id/sunset_hour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="17:26"
-                android:textSize="@dimen/text_value"
-                android:textAlignment="textStart" />
+                android:textAlignment="textEnd"
+                android:textColor="@color/text_high_emph"
+                android:textSize="@dimen/text_value" />
 
         </LinearLayout>
     </LinearLayout>
@@ -132,6 +166,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/label_pressure"
         android:textSize="@dimen/text_label"
+        android:textColor="@color/text_helper_emp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -144,8 +179,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:textSize="@dimen/text_value"
         android:text="1020 hPa"
+        android:textSize="@dimen/text_value"
+        android:textColor="@color/text_high_emph"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/sun_wrapper"
         app:layout_constraintHorizontal_bias="0.0"
@@ -154,18 +190,32 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/update"
+        android:id="@+id/update_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Aktualizacja: 20.02.2020 13:21"
+        android:layout_marginBottom="16dp"
 
+        android:text="Aktualizacja: 20.02.2020 13:21"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/back_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/pressure"
         app:layout_constraintTop_toBottomOf="@+id/pressure"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_back"
+        android:textSize="@dimen/text_normal"
+        app:cornerRadius="@dimen/button_corner_radius"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

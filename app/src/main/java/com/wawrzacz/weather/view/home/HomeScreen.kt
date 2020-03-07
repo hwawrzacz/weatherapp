@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.wawrzacz.weather.R
 import com.wawrzacz.weather.navigation.MyFragmentManager
 import com.wawrzacz.weather.view.details.DetailsFragment
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_home_page.view.*
 
 class HomeScreen: Fragment() {
     lateinit var searchButton: MaterialButton
+    lateinit var cityNameInputLayout: TextInputLayout
     lateinit var cityNameInput: TextInputEditText
 
     override fun onCreateView(
@@ -28,6 +30,7 @@ class HomeScreen: Fragment() {
 
         // Initialize fields from view
         searchButton = view.search_button
+        cityNameInputLayout = view.input_layout
         cityNameInput = view.city_name_input
 
         // Add listeners
@@ -42,22 +45,38 @@ class HomeScreen: Fragment() {
 
     private fun onSearch() {
         // ValidateInput
-        hideKeyboard(searchButton)
+        if (isInputValid()) {
+            cleanError()
+            enableLoadingAnimation()
+            hideKeyboard(searchButton)
 
-        val cityName = this.cityNameInput.text.toString()
+            // Make API call
 
-        if (cityName.isNullOrBlank()) {
-            // TODO: Show proper error below input
-            makeToastLong("Pusta nazwa")
-        } else {
-            makeToastLong(cityName)
-
+            // If API answer is correct, then open fragment with weather details
             val detailsFragment = DetailsFragment()
             MyFragmentManager.replaceWithSubFragment(detailsFragment)
         }
+        else {
+            showError("Pole nie może być puste")
+//            showError(R.string.error_input_cannot_be_empty)
+        }
 
-        // Make API call
-        // If API answer is correct, then open fragment with weather details
+    }
+
+    private fun isInputValid(): Boolean {
+        return !cityNameInput.text.isNullOrBlank()
+    }
+
+    private fun showError(errorMessage: String) {
+        cityNameInputLayout.error = errorMessage
+    }
+
+    private fun cleanError() {
+        cityNameInputLayout.error = null
+    }
+
+    private fun enableLoadingAnimation() {
+        // TODO: Set loading icon on button
     }
 
     private fun hideKeyboard(view: View) {
