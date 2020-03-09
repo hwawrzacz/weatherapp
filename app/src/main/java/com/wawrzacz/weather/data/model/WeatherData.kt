@@ -8,12 +8,16 @@ class WeatherData (
     @SerializedName("main")
     val main: Main,
     @SerializedName("weather")
-    val weather: Iterable<Description>,
+    val weather: List<Description>,
     @SerializedName("sys")
     val sunData: SunData,
     @SerializedName("dt")
-    val updateTime: Integer
-) {}
+    val updateTime: Int
+) {
+    override fun toString(): String {
+        return "$cityName | ${main.temperature} | ${main.pressure}"
+    }
+}
 
 class Main (
     @SerializedName("temp")
@@ -24,9 +28,9 @@ class Main (
 
 class SunData (
     @SerializedName("sunrise")
-    val sunrise: Integer,
+    val sunrise: Int,
     @SerializedName("sunset")
-    val sunset: Integer
+    val sunset: Int
 ) {}
 
 class Description (

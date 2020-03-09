@@ -12,11 +12,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.wawrzacz.weather.R
+import com.wawrzacz.weather.data.model.WeatherDataResponse
 import com.wawrzacz.weather.navigation.MyFragmentManager
 import com.wawrzacz.weather.view.details.DetailsFragment
 import com.wawrzacz.weather.viewmodel.WeatherViewModel
@@ -48,20 +50,10 @@ class HomeScreen: Fragment() {
 
         // Add listeners
         searchButton.setOnClickListener {
-            Log.i("schab","value changed")
-            viewModel.cityName.value = cityNameInput.text.toString()
             this.onSearch()
         }
 
-        // Check permission
-
-
-        if (isLocationPermissionGranted()) {
-            makeToastLong("Uprawnienia do lokalizacji przyznane")
-        }
-        else {
-            makeToastLong("Uprawnienia do lokalizacji nie przyznane")
-        }
+//        checkLocationPermission()
 
         return view
     }
@@ -74,10 +66,10 @@ class HomeScreen: Fragment() {
             hideKeyboard(searchButton)
 
             // Make API call
-
-            // If API answer is correct, then open fragment with weather details
-            val detailsFragment = DetailsFragment()
-            MyFragmentManager.replaceWithSubFragment(detailsFragment)
+            viewModel.getWeatherData(this.cityNameInput.text.toString()).
+                observe(this.viewLifecycleOwner, Observer {
+                    handleApiResponse(it)
+            })
         }
         else {
             showError("Pole nie może być puste")
@@ -89,7 +81,53 @@ class HomeScreen: Fragment() {
     private fun isInputValid(): Boolean {
         return !cityNameInput.text.isNullOrBlank()
     }
+    
+    private fun enableLoadingAnimation() {
+        this.searchButton.text = "Sprawdzam..."
+    }
 
+    private fun hideKeyboard(view: View) {
+        val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun handleApiResponse(response: WeatherDataResponse) {
+        if (response === null) {
+            makeToastShort("WDR is null")
+        } else { val weatherData = response.weatherData
+            Log.i("schab", "Changed ${weatherData.toString()}")
+            viewModel.weatherData.value = weatherData
+
+            if (response.isLoading) {
+                enableLoadingAnimation()
+            } else if (response.isLoaded && response.isSuccess) {
+                openDetailsFragment()
+                disableLoadingAnimation()
+            } else if (response.isLoaded && !response.isSuccess) {
+                makeToastShort("Wystąpił błąd podczas pobierania danych")
+                disableLoadingAnimation()
+            }
+        }
+    }
+
+    private fun openDetailsFragment() {
+        val detailsFragment = DetailsFragment()
+        MyFragmentManager.replaceWithSubFragment(detailsFragment)
+    }
+
+    private fun disableLoadingAnimation() {
+        this.searchButton.text = "Sprawdź"
+    }
+
+    private fun checkLocationPermission() {
+        if (isLocationPermissionGranted()) {
+            makeToastShort("Uprawnienia do lokalizacji przyznane")
+        }
+        else {
+            makeToastShort("Uprawnienia do lokalizacji nie przyznane")
+        }
+    }
+    
     private fun isLocationPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
@@ -102,16 +140,7 @@ class HomeScreen: Fragment() {
         cityNameInputLayout.error = null
     }
 
-    private fun enableLoadingAnimation() {
-        // TODO: Set loading icon on button
-    }
-
-    private fun hideKeyboard(view: View) {
-        val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun makeToastLong(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    private fun makeToastShort(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

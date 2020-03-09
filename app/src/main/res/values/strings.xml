@@ -14,7 +14,8 @@
     <string name="label_temperature">Temperatura</string>
     <string name="label_sunrise">Wschód słońca</string>
     <string name="label_sunset">Zachód słońca</string>
-    <string name="label_update">Aktualizacja</string>
+    <string name="label_update">Aktualizacja: </string>
+    <string name="unit_pressure">hPa</string>
 
     <!-- Errors -->
     <string name="error_input_cannot_be_empty">Pole nie może być puste</string>

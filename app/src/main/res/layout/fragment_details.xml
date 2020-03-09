@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:text="Gliwice"
-            android:textSize="@dimen/text_header"
+            android:textSize="@dimen/text_city"
             android:textColor="@color/text_high_emph" />
 
         <com.google.android.material.button.MaterialButton
@@ -41,66 +41,66 @@
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/conditions_wrapper"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:text="Pochmurno"
+        android:textAlignment="center"
+        android:textColor="@color/text_high_emph"
+        android:textSize="@dimen/text_value"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/city_name_wrapper"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/city_name_wrapper"
         app:layout_constraintTop_toBottomOf="@+id/city_name_wrapper"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:id="@+id/conditions_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_section"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/city_name_wrapper"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/city_name_wrapper"
+        app:layout_constraintTop_toBottomOf="@+id/description"
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/temperature"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="-11"
-            android:textSize="@dimen/text_temperature"
-            android:textColor="@color/text_high_emph" />
+            android:textColor="@color/text_high_emph"
+            android:textSize="@dimen/text_temperature" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="°C"
-            android:textSize="@dimen/text_temperature"
-            android:textColor="@color/text_high_emph" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="vertical">
+            android:layout_gravity="center_vertical"
+            android:text="°C"
+            android:textColor="@color/text_high_emph"
+            android:textSize="@dimen/text_temperature" />
 
-            <ImageView
-                android:id="@+id/weather_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_launcher_background" />
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pochmurno"
-                android:textColor="@color/text_high_emph"
-                android:textSize="@dimen/text_value"
-                android:textAlignment="center" />
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/weather_icon"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/w01n"
+            android:tint="@color/weather_icon"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/sun_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="@dimen/margin_double_section"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/conditions_wrapper"
         app:layout_constraintStart_toStartOf="@+id/conditions_wrapper"
@@ -179,7 +179,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="1020 hPa"
+        android:text="1020"
         android:textSize="@dimen/text_value"
         android:textColor="@color/text_high_emph"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -190,20 +190,47 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
+        android:id="@+id/pressure_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_space"
+        android:text="@string/unit_pressure"
+        android:textColor="@color/text_high_emph"
+        android:textSize="@dimen/text_value"
+        app:layout_constraintBottom_toBottomOf="@+id/pressure"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/pressure"
+        app:layout_constraintTop_toTopOf="@+id/pressure" />
+
+    <TextView
+        android:id="@+id/update_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_update"
+        android:textSize="@dimen/text_tiny"
+        android:layout_marginEnd="@dimen/margin_space"
+        app:layout_constraintBottom_toBottomOf="@+id/pressure_unit"
+        app:layout_constraintEnd_toStartOf="@+id/update_time"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/sun_wrapper"
+        app:layout_constraintTop_toTopOf="@+id/pressure_unit"
+        app:layout_constraintVertical_bias="0.83" />
+
+    <TextView
         android:id="@+id/update_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
 
-        android:text="Aktualizacja: 20.02.2020 13:21"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/back_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/pressure"
-        app:layout_constraintTop_toBottomOf="@+id/pressure"
-        app:layout_constraintVertical_bias="1.0" />
+        android:layout_marginStart="@dimen/margin_space"
+        android:text="20.02.2020 13:21"
+        android:textSize="@dimen/text_tiny"
+        app:layout_constraintBottom_toBottomOf="@+id/update_label"
+        app:layout_constraintEnd_toEndOf="@+id/sun_wrapper"
+        app:layout_constraintStart_toStartOf="@+id/sun_wrapper"
+        app:layout_constraintTop_toTopOf="@+id/update_label"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/back_button"
@@ -212,6 +239,7 @@
         android:text="@string/btn_back"
         android:textSize="@dimen/text_normal"
         app:cornerRadius="@dimen/button_corner_radius"
+        android:layout_marginBottom="@dimen/margin_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -13,12 +13,13 @@
         android:layout_height="wrap_content"
         android:text="Znajdź swoje "
         android:textSize="@dimen/text_huge"
+        android:layout_marginTop="@dimen/margin_section"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22000003" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView"
@@ -49,31 +50,32 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Miasto"
 
+        android:hint="Miasto"
         app:boxCornerRadiusBottomEnd="@dimen/input_radius"
         app:boxCornerRadiusBottomStart="@dimen/input_radius"
         app:boxCornerRadiusTopEnd="@dimen/input_radius"
         app:boxCornerRadiusTopStart="@dimen/input_radius"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:startIconDrawable="@drawable/round_search_24"
-
         app:errorEnabled="true"
 
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView2">
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView2"
+        app:layout_constraintVertical_bias="0.41000003"
+        app:startIconDrawable="@drawable/round_search_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/city_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_big"
-            android:inputType="textCapSentences"
-            android:maxLength="30" />
+            android:inputType="textCapWords"
+            android:maxLength="30"
+            android:textSize="@dimen/text_big" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
