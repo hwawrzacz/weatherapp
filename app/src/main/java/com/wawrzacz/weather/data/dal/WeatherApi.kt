@@ -36,8 +36,8 @@ class WeatherApi {
 
         call.enqueue(object: Callback<WeatherData> {
             override fun onResponse(call: Call<WeatherData>, response: Response<WeatherData>) {
-                val obj = response.body()
-                Log.i("schab:API",obj.toString())
+                val obj:WeatherData? = response.body()
+                Log.i("schab:API", obj?.responseCode.toString())
                 weatherDataRespLiveData.value = handleOnResponse(response)
             }
             override fun onFailure(call: Call<WeatherData>, t: Throwable) {
@@ -51,7 +51,7 @@ class WeatherApi {
     private fun createDefaultWeaterDataResponse(): WeatherDataResponse {
         return WeatherDataResponse(
             isLoading = true,
-            isLoaded = false,
+            isFinished = false,
             isSuccess = false,
             weatherData = null
         )
@@ -62,11 +62,11 @@ class WeatherApi {
 
         if (response.body() === null) {
             weatherDataResponse.isLoading = false
-            weatherDataResponse.isLoaded = true
+            weatherDataResponse.isFinished = true
             weatherDataResponse.isSuccess = false
-        } else {
+        } else if (response?.body()?.responseCode == 200){
             weatherDataResponse.isLoading = false
-            weatherDataResponse.isLoaded = true
+            weatherDataResponse.isFinished = true
             weatherDataResponse.isSuccess = true
             weatherDataResponse.weatherData = response.body()
         }
@@ -78,7 +78,7 @@ class WeatherApi {
         val weatherDataResponse = createDefaultWeaterDataResponse()
 
         weatherDataResponse.isLoading = false
-        weatherDataResponse.isLoaded = true
+        weatherDataResponse.isFinished = true
         weatherDataResponse.isSuccess = false
 
         return weatherDataResponse

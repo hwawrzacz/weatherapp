@@ -16,6 +16,7 @@
     <dimen name="text_tiny">14sp</dimen>
 
     <!-- Margins and paddings -->
+    <dimen name="margin_err_height">6dp</dimen>
     <dimen name="margin_double_section">54dp</dimen>
     <dimen name="margin_label">16dp</dimen>
     <dimen name="margin_section">32dp</dimen>

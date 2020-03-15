@@ -7,39 +7,20 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <LinearLayout
-        android:id="@+id/city_name_wrapper"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/city_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_weight="5"
+        android:text="Gliwice"
+        android:textColor="@color/text_high_emph"
+        android:textSize="@dimen/text_city"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/city_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Gliwice"
-            android:textSize="@dimen/text_city"
-            android:textColor="@color/text_high_emph" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/info_button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/outline_info_24"
-            android:layout_gravity="center"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:cornerRadius="@dimen/button_corner_radius"
-            android:drawableTint="@color/colorAccent"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
-    </LinearLayout>
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/description"
@@ -50,10 +31,10 @@
         android:textColor="@color/text_high_emph"
         android:textSize="@dimen/text_value"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/city_name_wrapper"
+        app:layout_constraintEnd_toEndOf="@+id/city_name"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/city_name_wrapper"
-        app:layout_constraintTop_toBottomOf="@+id/city_name_wrapper"
+        app:layout_constraintStart_toStartOf="@+id/city_name"
+        app:layout_constraintTop_toBottomOf="@+id/city_name"
         app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout

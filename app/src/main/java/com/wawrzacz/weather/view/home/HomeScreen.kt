@@ -3,13 +3,16 @@ package com.wawrzacz.weather.view.home
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import android.os.Bundle
+import com.wawrzacz.weather.utils.Validator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,10 +41,8 @@ class HomeScreen: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home_page, container, false)
 
-        // Initialize ViewModel
-        val viewModelFactory = WeatherViewModelFactory()
-        viewModel = ViewModelProvider(activity!!, viewModelFactory)
-            .get(WeatherViewModel::class.java)
+        initializeViewModel()
+        unsetActionBar()
 
         // Initialize fields from view
         searchButton = view.search_button
@@ -53,37 +54,60 @@ class HomeScreen: Fragment() {
             this.onSearch()
         }
 
-//        checkLocationPermission()
+        // Find by location
+        cityNameInputLayout.setEndIconOnClickListener {
+            // TODO: Handle search by location
+            cleanError()
+
+            if (isLocationPermissionGranted()) {
+                // Get location
+                // Make and handle API call based on location
+            } else {
+                // Try to get location permission and possibly make API call
+                handleNoLocationPermission()
+            }
+        }
 
         return view
     }
 
-    private fun onSearch() {
-        // ValidateInput
-        if (isInputValid()) {
-            cleanError()
-            enableLoadingAnimation()
-            hideKeyboard(searchButton)
-
-            // Make API call
-            viewModel.getWeatherData(this.cityNameInput.text.toString()).
-                observe(this.viewLifecycleOwner, Observer {
-                    handleApiResponse(it)
-            })
-        }
-        else {
-            showError("Pole nie może być puste")
-//            showError(R.string.error_input_cannot_be_empty)
-        }
-
+    private fun initializeViewModel() {
+        val viewModelFactory = WeatherViewModelFactory()
+        viewModel = ViewModelProvider(activity!!, viewModelFactory)
+            .get(WeatherViewModel::class.java)
     }
 
-    private fun isInputValid(): Boolean {
-        return !cityNameInput.text.isNullOrBlank()
+    private fun unsetActionBar() {
+        val compatActivity = activity as AppCompatActivity
+        val supportActionBar = compatActivity.supportActionBar
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayShowHomeEnabled(false)
+    }
+
+    private fun onSearch() {
+        val enteredText = cityNameInput.text.toString()
+
+        if (Validator.isValid(enteredText)) {
+            if (hasInternetAccess()) {
+                enableLoadingAnimation()
+                hideKeyboard(searchButton)
+                makeAndHandleApiCall()
+            } else {
+                handleNoInternetAccess()
+            }
+        }
+        handleInvalidInput(enteredText)
+    }
+
+    private fun hasInternetAccess(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+
+        return network !== null
     }
     
     private fun enableLoadingAnimation() {
-        this.searchButton.text = "Sprawdzam..."
+        this.searchButton.text = getString(R.string.btn_checking)
     }
 
     private fun hideKeyboard(view: View) {
@@ -91,20 +115,26 @@ class HomeScreen: Fragment() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun handleApiResponse(response: WeatherDataResponse) {
-        if (response === null) {
-            makeToastShort("WDR is null")
-        } else { val weatherData = response.weatherData
+    private fun makeAndHandleApiCall() {
+        viewModel.getWeatherData(this.cityNameInput.text.toString().trim())
+            .observe(this.viewLifecycleOwner, Observer {
+                handleApiResponse(it)
+            })
+    }
+
+    private fun handleApiResponse(response: WeatherDataResponse?) {
+        if (response !== null) {
+            val weatherData = response.weatherData
             Log.i("schab", "Changed ${weatherData.toString()}")
             viewModel.weatherData.value = weatherData
 
             if (response.isLoading) {
                 enableLoadingAnimation()
-            } else if (response.isLoaded && response.isSuccess) {
+            } else if (response.isFinished && response.isSuccess) {
                 openDetailsFragment()
                 disableLoadingAnimation()
-            } else if (response.isLoaded && !response.isSuccess) {
-                makeToastShort("Wystąpił błąd podczas pobierania danych")
+            } else if (response.isFinished && !response.isSuccess) {
+                makeToastShort(getString(R.string.err_city_not_found))
                 disableLoadingAnimation()
             }
         }
@@ -116,28 +146,43 @@ class HomeScreen: Fragment() {
     }
 
     private fun disableLoadingAnimation() {
-        this.searchButton.text = "Sprawdź"
+        this.searchButton.text = getString(R.string.btn_check)
     }
 
-    private fun checkLocationPermission() {
-        if (isLocationPermissionGranted()) {
-            makeToastShort("Uprawnienia do lokalizacji przyznane")
-        }
-        else {
-            makeToastShort("Uprawnienia do lokalizacji nie przyznane")
-        }
+    private fun handleNoInternetAccess() {
+        makeToastShort(getString(R.string.err_no_internet_access))
     }
     
     private fun isLocationPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun showError(errorMessage: String) {
+    private fun handleNoLocationPermission() {
+        makeToastShort("Nie przyznano uprawnień do lokalizacji")
+    }
+
+    private fun setError(errorMessage: String) {
         cityNameInputLayout.error = errorMessage
+        cityNameInputLayout.errorIconDrawable = null
     }
 
     private fun cleanError() {
         cityNameInputLayout.error = null
+    }
+
+    private fun handleInvalidInput(text: String) {
+        when {
+            !Validator.isValidNotEmpty(text) -> {
+                setError(getString(R.string.err_input_cannot_be_empty))
+            }
+            !Validator.isValidNoNumber(text) -> {
+                setError(getString(R.string.err_input_cannot_contain_numbers))
+            }
+            !Validator.isValidNoSpecialCharacters(text) -> {
+                setError(getString(R.string.err_input_cannot_contain_special_characters))
+            }
+            else -> cleanError()
+        }
     }
 
     private fun makeToastShort(message: String) {

@@ -11,15 +11,14 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Znajdź swoje "
         android:textSize="@dimen/text_huge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintHorizontal_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView"
@@ -48,57 +47,59 @@
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintHorizontal_bias="0.0"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:hint="Miasto"
-        app:boxCornerRadiusBottomEnd="@dimen/input_radius"
-        app:boxCornerRadiusBottomStart="@dimen/input_radius"
-        app:boxCornerRadiusTopEnd="@dimen/input_radius"
-        app:boxCornerRadiusTopStart="@dimen/input_radius"
-        app:errorEnabled="true"
+        android:orientation="horizontal"
 
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView2"
-        app:layout_constraintVertical_bias="0.41000003"
-        app:startIconDrawable="@drawable/round_search_24"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextView2">
 
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/round_my_location_24"
-        app:endIconTint="@color/colorPrimary" >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/city_name_input"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_weight="5"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:maxLength="30"
-            android:textSize="@dimen/text_big" />
+            android:gravity="center_vertical"
+            android:layout_marginEnd="@dimen/margin_section"
 
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/hint_city"
+            app:boxCornerRadiusBottomEnd="@dimen/input_radius"
+            app:boxCornerRadiusBottomStart="@dimen/input_radius"
+            app:boxCornerRadiusTopEnd="@dimen/input_radius"
+            app:boxCornerRadiusTopStart="@dimen/input_radius"
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/search_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_label"
+            app:startIconDrawable="@drawable/round_search_24"
+            app:endIconDrawable="@drawable/round_my_location_24"
+            app:endIconMode="custom"
+            app:endIconTint="@color/colorPrimary"
+            app:errorEnabled="true" >
 
-        android:text="Sprawdź"
-        android:textSize="@dimen/text_normal"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/city_name_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:maxLength="30"
+                android:textSize="@dimen/text_big" />
 
-        app:cornerRadius="@dimen/button_corner_radius"
+        </com.google.android.material.textfield.TextInputLayout>
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/input_layout"
-        app:layout_constraintStart_toStartOf="@+id/input_layout"
-        app:layout_constraintTop_toBottomOf="@+id/input_layout"
-        app:layout_constraintVertical_bias="0.0" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/margin_err_height"
 
+            android:text="@string/btn_check"
+            android:textSize="@dimen/text_normal"
+
+            app:cornerRadius="@dimen/input_radius" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

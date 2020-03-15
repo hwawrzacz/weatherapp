@@ -3,13 +3,20 @@
 
     <!-- Buttons -->
     <string name="btn_check">Sprawdź</string>
+    <string name="btn_checking">Sprawdzam...</string>
     <string name="btn_close">Zamknij</string>
     <string name="btn_back">Powrót</string>
 
-    <string name="header_main">Sprawdź pogodę w swoim mieście</string>
-    <string name="placeholder_search">np. Gliwice</string>
+    <!-- Errors -->
+    <string name="err_input_cannot_be_empty">Pole nie może być puste</string>
+    <string name="err_input_cannot_contain_numbers">Pole nie może zawierać cyfr</string>
+    <string name="err_input_cannot_contain_special_characters">Pole nie może zawierać znaków specjalnych</string>
+    <string name="err_while_getting_data">"Wystąpił błąd podczas pobierania danych"</string>
+    <string name="err_city_not_found">Nie znaleziono miasta</string>
+    <string name="err_no_internet_access">"Brak dostępu do internetu"</string>
 
     <!-- Labels -->
+    <string name="label_info">Informacje</string>
     <string name="label_pressure">Ciśnienie</string>
     <string name="label_temperature">Temperatura</string>
     <string name="label_sunrise">Wschód słońca</string>
@@ -17,7 +24,20 @@
     <string name="label_update">Aktualizacja: </string>
     <string name="unit_pressure">hPa</string>
 
-    <!-- Errors -->
-    <string name="error_input_cannot_be_empty">Pole nie może być puste</string>
+    <string name="hint_city">Miasto</string>
+
+    <string name="header_main">Sprawdź pogodę w swoim mieście</string>
+    <string name="placeholder_search">np. Gliwice</string>
+
+    <!-- Common -->
+    <string name="common_cancel">Anuluj</string>
+    <string name="common_close">Zamknij</string>
+    <string name="common_ok">Ok</string>
+
+    <!-- Titles and messages -->
+    <string name="title_home_screen_main">Znajdź swoje miasto</string>
+    <string name="title_home_screen_sub">i sprawdź aktualną pogodę</string>
+    <string name="title_credits">Informacje</string>
+    <string name="content_credits">Dane pogodowe wykorzystywane w tej aplikacji pochodzą z OpenWeather Weather API <b>www.openweathermap.org/api</b></string>
 
 </resources>

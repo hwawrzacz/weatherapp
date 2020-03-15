@@ -3,6 +3,8 @@ package com.wawrzacz.weather.data.model
 import com.google.gson.annotations.SerializedName
 
 class WeatherData (
+    @SerializedName("cod")
+    val responseCode: Int,
     @SerializedName("name")
     val cityName: String,
     @SerializedName("main")
@@ -15,7 +17,7 @@ class WeatherData (
     val updateTime: Int
 ) {
     override fun toString(): String {
-        return "$cityName | ${main.temperature} | ${main.pressure}"
+        return "$responseCode | $cityName | ${main.temperature} | ${main.pressure}"
     }
 }
 

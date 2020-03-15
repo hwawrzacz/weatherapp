@@ -1,17 +1,10 @@
 package com.wawrzacz.weather.view.details
 
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.widget.TooltipCompat
-import androidx.core.graphics.drawable.toDrawable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,7 +12,6 @@ import com.wawrzacz.weather.R
 import com.wawrzacz.weather.viewmodel.WeatherViewModel
 import com.wawrzacz.weather.viewmodel.WeatherViewModelFactory
 import kotlinx.android.synthetic.main.fragment_details.view.*
-import java.net.URI
 import java.sql.Date
 import java.text.SimpleDateFormat
 
@@ -42,8 +34,10 @@ class DetailsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_details, container, false)
-        val infoButton = view.info_button
+
         val backButton = view.back_button
+
+        setActionBar()
 
         // Initialize fields
         this.cityName = view.city_name
@@ -63,16 +57,18 @@ class DetailsFragment: Fragment() {
         // Add bindings
         addBindings()
 
-        // Add click listeners
-        infoButton.setOnClickListener {
-            TooltipCompat.setTooltipText(it, "Ostatnia aktualiacja: ${lastUpdateTime.text}")
-        }
-
         backButton.setOnClickListener {
             activity?.onBackPressed()
         }
 
         return view
+    }
+
+    private fun setActionBar() {
+        val compatActivity = activity as AppCompatActivity
+        val supportActionBar = compatActivity.supportActionBar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private fun addBindings() {
