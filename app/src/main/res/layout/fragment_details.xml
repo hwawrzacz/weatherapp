@@ -220,6 +220,7 @@
         android:text="@string/btn_back"
         android:textSize="@dimen/text_normal"
         app:cornerRadius="@dimen/button_corner_radius"
+        android:backgroundTint="@color/colorAccent"
         android:layout_marginBottom="@dimen/margin_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

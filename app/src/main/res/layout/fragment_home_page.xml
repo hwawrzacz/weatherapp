@@ -14,6 +14,7 @@
         android:layout_marginTop="16dp"
         android:text="Znajdź swoje "
         android:textSize="@dimen/text_huge"
+        android:textColor="@color/text_helper_emp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +42,7 @@
         android:layout_height="wrap_content"
         android:text="i sprawdź aktualną pogodę"
         android:textSize="@dimen/text_big"
+        android:textColor="@color/text_helper_emp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/materialTextView"
         app:layout_constraintStart_toStartOf="@+id/textView"
@@ -71,7 +73,7 @@
 
         app:endIconMode="custom"
         app:endIconDrawable="@drawable/round_my_location_24"
-        app:endIconTint="@color/colorPrimary" >
+        app:endIconTint="@color/colorAccent" >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/city_name_input"
@@ -88,6 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_label"
+        android:backgroundTint="@color/colorAccent"
 
         android:text="Sprawdź"
         android:textSize="@dimen/text_normal"
