@@ -3,7 +3,9 @@ package com.wawrzacz.weather.view.home
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import com.wawrzacz.weather.utils.Validator
 import android.util.Log
@@ -12,12 +14,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColor
+import androidx.core.graphics.toColorLong
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.wawrzacz.weather.R
@@ -134,7 +140,7 @@ class HomeScreen: Fragment() {
                 openDetailsFragment()
                 disableLoadingAnimation()
             } else if (response.isFinished && !response.isSuccess) {
-                makeToastShort(getString(R.string.err_city_not_found))
+                makeSnackBarLong(getString(R.string.err_city_not_found), getString(R.string.common_ok))
                 disableLoadingAnimation()
             }
         }
@@ -150,15 +156,15 @@ class HomeScreen: Fragment() {
     }
 
     private fun handleNoInternetAccess() {
-        makeToastShort(getString(R.string.err_no_internet_access))
+        makeSnackBarLong(getString(R.string.err_no_internet_access), getString(R.string.common_ok))
     }
-    
+
     private fun isLocationPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun handleNoLocationPermission() {
-        makeToastShort("Nie przyznano uprawnień do lokalizacji")
+        makeSnackBarLong("Nie przyznano uprawnień do lokalizacji", getString(R.string.common_ok))
     }
 
     private fun setError(errorMessage: String) {
@@ -185,7 +191,9 @@ class HomeScreen: Fragment() {
         }
     }
 
-    private fun makeToastShort(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    private fun makeSnackBarLong(message: String, actionText: String) {
+        Snackbar.make(view!!, message, Snackbar.LENGTH_LONG)
+            .setAction(actionText, {})
+            .show()
     }
 }
