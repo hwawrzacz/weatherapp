@@ -1,11 +1,11 @@
 package com.wawrzacz.weather.view.home
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
+import android.location.Location
 import android.net.ConnectivityManager
-import android.os.Build
 import android.os.Bundle
 import com.wawrzacz.weather.utils.Validator
 import android.util.Log
@@ -13,23 +13,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.toColor
-import androidx.core.graphics.toColorLong
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.wawrzacz.weather.R
 import com.wawrzacz.weather.data.model.WeatherDataResponse
-import com.wawrzacz.weather.navigation.MyFragmentManager
-import com.wawrzacz.weather.view.details.DetailsFragment
 import com.wawrzacz.weather.viewmodel.WeatherViewModel
 import com.wawrzacz.weather.viewmodel.WeatherViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home_page.view.*
@@ -39,6 +36,8 @@ class HomeScreen: Fragment() {
     private lateinit var cityNameInputLayout: TextInputLayout
     private lateinit var cityNameInput: TextInputEditText
     private lateinit var viewModel: WeatherViewModel
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val LOCATION_ACCESS_REQUEST_CODE = 99
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +47,9 @@ class HomeScreen: Fragment() {
         val view = inflater.inflate(R.layout.fragment_home_page, container, false)
 
         initializeViewModel()
-        unsetActionBar()
+        disableUpButton()
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
 
         // Initialize fields from view
         searchButton = view.search_button
@@ -57,21 +58,13 @@ class HomeScreen: Fragment() {
 
         // Add listeners
         searchButton.setOnClickListener {
-            this.onSearch()
+            onSearchByName()
         }
 
         // Find by location
         cityNameInputLayout.setEndIconOnClickListener {
-            // TODO: Handle search by location
             cleanError()
-
-            if (isLocationPermissionGranted()) {
-                // Get location
-                // Make and handle API call based on location
-            } else {
-                // Try to get location permission and possibly make API call
-                handleNoLocationPermission()
-            }
+            onSearchByLocation()
         }
 
         return view
@@ -83,21 +76,21 @@ class HomeScreen: Fragment() {
             .get(WeatherViewModel::class.java)
     }
 
-    private fun unsetActionBar() {
+    private fun disableUpButton() {
         val compatActivity = activity as AppCompatActivity
         val supportActionBar = compatActivity.supportActionBar
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowHomeEnabled(false)
     }
 
-    private fun onSearch() {
+    private fun onSearchByName() {
         val enteredText = cityNameInput.text.toString()
 
         if (Validator.isValid(enteredText)) {
             if (hasInternetAccess()) {
                 enableLoadingAnimation()
                 hideKeyboard(searchButton)
-                makeAndHandleApiCall()
+                makeAndHandleApiCallByName()
             } else {
                 handleNoInternetAccess()
             }
@@ -105,27 +98,36 @@ class HomeScreen: Fragment() {
         handleInvalidInput(enteredText)
     }
 
-    private fun hasInternetAccess(): Boolean {
-        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork
-
-        return network !== null
-    }
-    
-    private fun enableLoadingAnimation() {
-        this.searchButton.text = getString(R.string.btn_checking)
-    }
-
-    private fun hideKeyboard(view: View) {
-        val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    private fun onSearchByLocation() {
+        if (isLocationPermissionGranted()) {
+            handleFineLocationPermissionGranted()
+        } else {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION),
+                LOCATION_ACCESS_REQUEST_CODE)
+        }
     }
 
-    private fun makeAndHandleApiCall() {
-        viewModel.getWeatherData(this.cityNameInput.text.toString().trim())
+    private fun makeAndHandleApiCallByName() {
+        viewModel.getWeatherDataByName(this.cityNameInput.text.toString().trim())
             .observe(this.viewLifecycleOwner, Observer {
                 handleApiResponse(it)
             })
+    }
+
+    private fun makeAndHandleApiCallByLocation() {
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            if (location === null){
+                makeSnackBarLong(getString(R.string.location_is_disabled), "")
+            } else {
+                viewModel.getWeatherDataByLocation(location)
+                    .observe(this.viewLifecycleOwner, Observer { weatherDateResponse: WeatherDataResponse ->
+                        handleApiResponse(weatherDateResponse)
+                    })
+            }
+        }
     }
 
     private fun handleApiResponse(response: WeatherDataResponse?) {
@@ -146,9 +148,52 @@ class HomeScreen: Fragment() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            LOCATION_ACCESS_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    handleFineLocationPermissionGranted()
+                } else if (grantResults.isNotEmpty() && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    handleCoarseLocationPermissionGranted()
+                } else {
+                    handleNoLocationPermission()
+                }
+            }
+            else -> handleNoLocationPermission()
+        }
+    }
+
+    private fun handleFineLocationPermissionGranted() {
+        makeAndHandleApiCallByLocation()
+    }
+
+    private fun handleCoarseLocationPermissionGranted() {
+        makeSnackBarLong(getString(R.string.alert_location_low_accuracy), getString(R.string.common_ok))
+        makeAndHandleApiCallByLocation()
+    }
+
     private fun openDetailsFragment() {
-        val detailsFragment = DetailsFragment()
-        MyFragmentManager.replaceWithSubFragment(detailsFragment)
+        view?.findNavController()?.navigate(R.id.action_homeScreen_to_detailsFragment)
+    }
+
+    private fun hasInternetAccess(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+
+        return network !== null
+    }
+
+    private fun hideKeyboard(view: View) {
+        val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun enableLoadingAnimation() {
+        this.searchButton.text = getString(R.string.btn_checking)
     }
 
     private fun disableLoadingAnimation() {
@@ -164,7 +209,7 @@ class HomeScreen: Fragment() {
     }
 
     private fun handleNoLocationPermission() {
-        makeSnackBarLong("Nie przyznano uprawnień do lokalizacji", getString(R.string.common_ok))
+        makeSnackBarLong(getString(R.string.no_location_permission), getString(R.string.common_ok))
     }
 
     private fun setError(errorMessage: String) {
@@ -191,7 +236,7 @@ class HomeScreen: Fragment() {
         }
     }
 
-    private fun makeSnackBarLong(message: String, actionText: String) {
+    private fun makeSnackBarLong(message: String, actionText: String?) {
         Snackbar.make(view!!, message, Snackbar.LENGTH_LONG)
             .setAction(actionText, {})
             .show()

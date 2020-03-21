@@ -35,9 +35,12 @@
     <string name="common_ok">Ok</string>
 
     <!-- Titles and messages -->
+    <string name="content_credits">Dane pogodowe wykorzystywane w tej aplikacji pochodzą z OpenWeather Weather API <b>www.openweathermap.org/api</b></string>
     <string name="title_home_screen_main">Znajdź swoje miasto</string>
     <string name="title_home_screen_sub">i sprawdź aktualną pogodę</string>
     <string name="title_credits">Informacje</string>
-    <string name="content_credits">Dane pogodowe wykorzystywane w tej aplikacji pochodzą z OpenWeather Weather API <b>www.openweathermap.org/api</b></string>
+    <string name="alert_location_low_accuracy">Wyszukiwanie lokalizacji z niską dokładością</string>
+    <string name="no_location_permission">Nie przyznano uprawnień do lokalizacji</string>
+    <string name="location_is_disabled">Lokalizacja jest wyłączona</string>
 
 </resources>

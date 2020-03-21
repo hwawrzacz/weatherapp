@@ -12,4 +12,7 @@
     <color name="text_disabled">#61000000</color>
     <color name="text_error">#FFB00020</color>
     <color name="weather_icon">#333333</color>
+
+    <!-- Layout colors -->
+    <color name="layout_lvl_0">#FFFFFF</color>
 </resources>

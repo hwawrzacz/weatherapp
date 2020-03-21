@@ -1,5 +1,6 @@
 package com.wawrzacz.weather.data.dal
 
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.GsonBuilder
@@ -33,6 +34,27 @@ class WeatherApi {
         weatherDataRespLiveData.value = weatherDataResponse
 
         val call = service.getWeatherData(cityName, API_KEY)
+
+        call.enqueue(object: Callback<WeatherData> {
+            override fun onResponse(call: Call<WeatherData>, response: Response<WeatherData>) {
+                val obj:WeatherData? = response.body()
+                Log.i("schab:API", obj?.responseCode.toString())
+                weatherDataRespLiveData.value = handleOnResponse(response)
+            }
+            override fun onFailure(call: Call<WeatherData>, t: Throwable) {
+                weatherDataRespLiveData.value = handleOnFailure()
+            }
+        })
+
+        return weatherDataRespLiveData
+    }
+
+    fun getWeatherDataByLocation(location: Location): MutableLiveData<WeatherDataResponse> {
+        val weatherDataResponse = createDefaultWeaterDataResponse()
+        var weatherDataRespLiveData = MutableLiveData<WeatherDataResponse>()
+        weatherDataRespLiveData.value = weatherDataResponse
+
+        val call = service.getWeatherData(location.latitude, location.longitude, API_KEY)
 
         call.enqueue(object: Callback<WeatherData> {
             override fun onResponse(call: Call<WeatherData>, response: Response<WeatherData>) {

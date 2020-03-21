@@ -1,5 +1,6 @@
 package com.wawrzacz.weather.data.dal
 
+import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import com.wawrzacz.weather.data.model.WeatherData
 import com.wawrzacz.weather.data.model.WeatherDataResponse
@@ -17,5 +18,8 @@ class WeatherRepository {
 
     fun getWeatherData(cityName: String): MutableLiveData<WeatherDataResponse> {
         return weatherApi.getWeatherData(cityName)
+    }
+    fun getWeatherDataByLocation(location: Location): MutableLiveData<WeatherDataResponse> {
+        return weatherApi.getWeatherDataByLocation(location)
     }
 }
