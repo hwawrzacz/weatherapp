@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="0dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp"
+    android:background="@color/layout_lvl_0">
+
+    <LinearLayout
+        android:id="@+id/weather_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Gliwice"
+                android:textColor="@color/text_high_emph"
+                android:textSize="@dimen/text_city" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pochmurno"
+                android:textAlignment="center"
+                android:textColor="@color/text_high_emph"
+                android:textSize="@dimen/text_value" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="-11"
+                android:textColor="@color/text_high_emph"
+                android:textSize="@dimen/text_temperature" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="°C"
+                android:textColor="@color/text_high_emph"
+                android:textSize="@dimen/text_temperature" />
+
+            <ImageView
+                android:id="@+id/weather_icon"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/w01n" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sun_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/conditions_wrapper"
+        app:layout_constraintStart_toStartOf="@+id/conditions_wrapper"
+        app:layout_constraintTop_toBottomOf="@+id/weather_wrapper"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_sunrise"
+                android:textAlignment="textStart"
+                android:textColor="@color/text_helper_emp"
+                android:textSize="@dimen/text_label" />
+
+            <TextView
+                android:id="@+id/sunrise_hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="6:30"
+                android:textAlignment="textStart"
+                android:textColor="@color/text_high_emph"
+                android:textSize="@dimen/text_value" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_sunset"
+                android:textAlignment="textEnd"
+                android:textColor="@color/text_helper_emp"
+                android:textSize="@dimen/text_label" />
+
+            <TextView
+                android:id="@+id/sunset_hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="17:26"
+                android:textAlignment="textEnd"
+                android:textColor="@color/text_high_emph"
+                android:textSize="@dimen/text_value" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pressure_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_label"
+        android:text="@string/label_pressure"
+        android:textSize="@dimen/text_label"
+        android:textColor="@color/text_helper_emp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sun_wrapper"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/pressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="1020"
+        android:textSize="@dimen/text_value"
+        android:textColor="@color/text_high_emph"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/sun_wrapper"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/pressure_label"
+        app:layout_constraintTop_toBottomOf="@+id/pressure_label"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/pressure_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_space"
+        android:text="@string/unit_pressure"
+        android:textColor="@color/text_high_emph"
+        android:textSize="@dimen/text_value"
+        app:layout_constraintBottom_toBottomOf="@+id/pressure"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/pressure"
+        app:layout_constraintTop_toTopOf="@+id/pressure" />
+
+    <TextView
+        android:id="@+id/update_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_update"
+        android:textSize="@dimen/text_tiny"
+        android:layout_marginEnd="@dimen/margin_space"
+        app:layout_constraintBottom_toBottomOf="@+id/pressure_unit"
+        app:layout_constraintEnd_toStartOf="@+id/update_time"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/sun_wrapper"
+        app:layout_constraintTop_toTopOf="@+id/pressure_unit"
+        app:layout_constraintVertical_bias="0.83" />
+
+    <TextView
+        android:id="@+id/update_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="@dimen/margin_space"
+        android:text="20.02.2020 13:21"
+        android:textSize="@dimen/text_tiny"
+        app:layout_constraintBottom_toBottomOf="@+id/update_label"
+        app:layout_constraintEnd_toEndOf="@+id/sun_wrapper"
+        app:layout_constraintStart_toStartOf="@+id/sun_wrapper"
+        app:layout_constraintTop_toTopOf="@+id/update_label"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_back"
+        android:textSize="@dimen/text_normal"
+        app:cornerRadius="@dimen/button_corner_radius"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_marginBottom="@dimen/margin_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

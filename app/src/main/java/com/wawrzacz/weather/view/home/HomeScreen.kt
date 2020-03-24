@@ -99,14 +99,18 @@ class HomeScreen: Fragment() {
     }
 
     private fun onSearchByLocation() {
-        if (isLocationPermissionGranted()) {
-            handleFineLocationPermissionGranted()
+        if (hasInternetAccess()) {
+            if (isLocationPermissionGranted()) {
+                handleFineLocationPermissionGranted()
+            } else {
+                requestPermissions(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION),
+                    LOCATION_ACCESS_REQUEST_CODE)
+            }
         } else {
-            requestPermissions(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION),
-                LOCATION_ACCESS_REQUEST_CODE)
+            handleNoInternetAccess()
         }
     }
 
