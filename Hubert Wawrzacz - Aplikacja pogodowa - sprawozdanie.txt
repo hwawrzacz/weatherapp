@@ -1,0 +1,21 @@
+Data zajęć: 05.03.2020 r.
+- Przygotowanie modelu danych (stworzenie klas, parserów)
+- Przygotowanie widoków (stworzenie mockupów i przygotowanie na ich podstawie widoków w aplikacji)
+- Stworzenie modelu MVVM
+- Dostosowanie modelu danych odbieranych z API na potrzeby obsługi błędów
+- Obsługa wykonania zapytania do API
+- Obsługa wyświetlania ikon pogodowych
+
+Data zajęć: 12.03.2020 r.
+- Dodanie paska nawigacyjnego (Action Bar)
+- Dodanie dialogu "Informacje"
+- Walidacja danych pobieranych od użytkownika
+- Dodanie weryfikacji połączenia sieciowego
+- Obsługa błędów (brak internetu, nie znaleziono miasta)
+
+Data zajęć: 19.03.2020 r.
+- Poprawienie błędu, gdzie przy zmianie orientacji fragment był przeładowywany,
+- Dodanie ikony aplikacji
+- Przygotowanie warstwy dostępu do danych na pobieranie danych na podstawie lokalizacji
+- Dodanie możliwości wyszukiwania po lokalizacji
+- Dodanie poziomej wersji widoków

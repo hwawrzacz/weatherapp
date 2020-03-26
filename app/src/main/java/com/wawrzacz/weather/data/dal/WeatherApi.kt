@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class WeatherApi {
     private val URL = "https://api.openweathermap.org/data/2.5/"
-    private val API_KEY = "8b641c38eb2c096cfc315dcc5935607e"
+    private val API_KEY = ""
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(this.URL)
